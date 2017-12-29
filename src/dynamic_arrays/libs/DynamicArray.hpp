@@ -34,13 +34,21 @@ template <typename T> class DynamicArray
         uint32_t size() const;
 
         /**
-         * @brief      Get element at index i
+         * @brief      Capacity of the array
          *
-         * @param[in]  i     index of element to retrieve 
-         *
-         * @return     A copy of the element at index i
+         * @return     number of allocated memory elements
          */
-        virtual T operator[](const uint32_t& i) const;
+        uint32_t capacity() const;
+
+        /**
+         * @brief      get a reference to the element at index i
+         *
+         * @param[in]  i     element index
+         *
+         * @return     reference to the required element
+         */
+        const T& operator[](const uint32_t& i) const;
+        T& operator[](const uint32_t& i);
 
         /**
          * @brief      Append element to the end of array
@@ -49,18 +57,15 @@ template <typename T> class DynamicArray
          */
         virtual void append(const T& element);
 
-        uint32_t capacity_ = 8;
-
     private:
 
         uint32_t numOfElements_ = 0;
 
-
+        uint32_t capacity_ = 8;
 
         std::shared_ptr<T> arrayPointer_;
 
         void resize();
-        
 };
 
 #include "DynamicArrayImpl.hpp"

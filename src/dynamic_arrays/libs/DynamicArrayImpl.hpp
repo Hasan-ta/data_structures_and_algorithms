@@ -33,7 +33,12 @@ template <typename T> uint32_t DynamicArray<T>::size() const
 	return numOfElements_;
 }
 
-template <typename T> T DynamicArray<T>::operator[](const uint32_t& i) const
+template <typename T> uint32_t DynamicArray<T>::capacity() const
+{
+	return capacity_;
+}
+
+template <typename T> const T& DynamicArray<T>::operator[](const uint32_t& i) const
 {
 	if(i <= numOfElements_)
 		return *(arrayPointer_.get()+i);
@@ -43,6 +48,11 @@ template <typename T> T DynamicArray<T>::operator[](const uint32_t& i) const
 		throw std::range_error(ss.str());
 	}
 
+}
+
+template <typename T> T& DynamicArray<T>::operator[](const uint32_t& i)
+{
+	return const_cast<int&>(static_cast<const DynamicArray*>(this)->operator[](i));
 }
 
 template <typename T> void DynamicArray<T>::append(const T& element)
