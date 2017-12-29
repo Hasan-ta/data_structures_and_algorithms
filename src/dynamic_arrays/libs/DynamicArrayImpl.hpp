@@ -52,7 +52,7 @@ template <typename T> const T& DynamicArray<T>::operator[](const uint32_t& i) co
 
 template <typename T> T& DynamicArray<T>::operator[](const uint32_t& i)
 {
-	return const_cast<int&>(static_cast<const DynamicArray*>(this)->operator[](i));
+	return const_cast<T&>(static_cast<const DynamicArray*>(this)->operator[](i));
 }
 
 template <typename T> void DynamicArray<T>::append(const T& element)

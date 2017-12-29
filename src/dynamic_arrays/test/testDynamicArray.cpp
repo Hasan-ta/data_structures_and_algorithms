@@ -1,8 +1,10 @@
 #include <iostream>
 #include "DynamicArray.hpp"
+#include <time.h>
+#include <math.h>
 
 
-void printArrayInfo(const DynamicArray<int> a)
+void printArrayInfo(const DynamicArray<int>& a)
 {
 	std::cout << "*******************************************\n"
 		"Array Info: \n"
@@ -19,17 +21,29 @@ void printArrayInfo(const DynamicArray<int> a)
 }
 int main (int argc, char** argv)
 {
-	DynamicArray<int> array1(2,0);
+	DynamicArray<int> array1;
+	DynamicArray<float> opTimes;
 
 	printArrayInfo(array1);
-	for (int i = 0; i < 32; ++i)
+	for (int i = 0; i < pow(2,10); ++i)
 	{
+		clock_t timeSpent = clock();
 		array1.append(i);
-		printArrayInfo(array1);
+		timeSpent = clock() - timeSpent;
+		opTimes.append((float)timeSpent);
+		// printArrayInfo(array1);
+		// std::cout << "capacity: " << array1.capacity() << std::endl;
+		std::cout << "Time Spent: " << (int) timeSpent << std::endl;
 	}
 
-	array1[10] = 500;
-	printArrayInfo(array1);
+	double totalTime = .0;
+	for (int i = 0; i < opTimes.size(); ++i)
+	{
+		totalTime += opTimes[i];
+	}
+
+	std::cout << "Number of trials: " << opTimes.size() << std::endl;
+	std::cout << "Average Time Spent: " << totalTime/opTimes.size() << std::endl;
 
 	return 0;
 }

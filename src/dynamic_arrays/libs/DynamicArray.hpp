@@ -61,7 +61,7 @@ template <typename T> class DynamicArray
 
         uint32_t numOfElements_ = 0;
 
-        uint32_t capacity_ = 8;
+        uint32_t capacity_ = 1;
 
         std::shared_ptr<T> arrayPointer_;
 
