@@ -2,6 +2,7 @@
 #include "DynamicArray.hpp"
 #include <time.h>
 #include <math.h>
+#include <vector>
 
 
 void printArrayInfo(const DynamicArray<int>& a)
@@ -39,11 +40,35 @@ int main (int argc, char** argv)
 	double totalTime = .0;
 	for (int i = 0; i < opTimes.size(); ++i)
 	{
-		totalTime += opTimes[i];
+		if(opTimes[i] == 0)
+			totalTime++;
+		else
+			totalTime += opTimes[i];
 	}
 
 	std::cout << "Number of trials: " << opTimes.size() << std::endl;
 	std::cout << "Average Time Spent: " << totalTime/opTimes.size() << std::endl;
+
+
+	// Testing iterator functionality;
+
+	DynamicArray<int> array2(16,0);
+	DynamicArray<int>::iterator array2It;
+	array2It = array2.begin();
+	int counter = 0;
+	for (; array2It != array2.end(); ++array2It)
+	{
+		*array2It = counter;
+		counter++;
+	}
+
+	DynamicArray<int>::const_iterator array2ConstIt = array2.begin();
+
+	while(array2ConstIt != array2.end())
+	{
+		std::cout << *array2ConstIt << std::endl;
+		array2ConstIt++;
+	}
 
 	return 0;
 }

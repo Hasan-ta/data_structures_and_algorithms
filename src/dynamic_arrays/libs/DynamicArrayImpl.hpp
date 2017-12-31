@@ -76,4 +76,24 @@ template <typename T> void DynamicArray<T>::resize()
 	arrayPointer_ = std::move(reallocationPtr);
 }
 
+template <typename T> typename DynamicArray<T>::const_iterator DynamicArray<T>::begin() const
+{
+	return arrayPointer_.get();
+}
+
+template <typename T> typename DynamicArray<T>::iterator DynamicArray<T>::begin()
+{
+	return arrayPointer_.get();
+}
+
+template <typename T> typename DynamicArray<T>::const_iterator DynamicArray<T>::end() const
+{
+	return arrayPointer_.get()+numOfElements_;
+}
+
+template <typename T> typename DynamicArray<T>::iterator DynamicArray<T>::end()
+{
+	return arrayPointer_.get()+numOfElements_;
+}
+
 #endif

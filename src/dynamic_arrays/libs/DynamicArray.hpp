@@ -5,6 +5,8 @@
 template <typename T> class DynamicArray
 {
     public:
+        typedef T* iterator;
+        typedef const T* const_iterator;
 
         /**
          * @brief      Default Constructor
@@ -24,7 +26,7 @@ template <typename T> class DynamicArray
          * @param[in]  capacity	pre-allocated cpacity of the array
          * @param[in]  value  value to which all elements are initialized
          */
-        DynamicArray(const uint32_t& capacity, const T& value=T());
+        DynamicArray(const uint32_t& capacity, const T& value);
 
         /**
          * @brief      Number of elements in array
@@ -56,6 +58,22 @@ template <typename T> class DynamicArray
          * @param[in]  element  The element
          */
         virtual void append(const T& element);
+
+        /**
+         * @brief      get pointer to first element
+         *
+         * @return     shared pointer to first element in the array
+         */
+        const_iterator begin() const;
+        iterator begin();
+
+        /**
+         * @brief      get a pointer to last element in array
+         *
+         * @return     shared pointer to last element in the array
+         */
+        const_iterator end() const;
+        iterator end();
 
     private:
 
