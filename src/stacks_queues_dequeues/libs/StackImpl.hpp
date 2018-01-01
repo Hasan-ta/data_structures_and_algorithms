@@ -13,7 +13,7 @@ template <class T> Stack<T>::Stack()
 template <class T> bool Stack<T>::push(const T& item)
 {
 	if(numOfItems_ == capacity_)
-		resize();
+		resize(2*capacity_);
 
 	*stackHead_++ = item;
 	++numOfItems_;
@@ -21,14 +21,18 @@ template <class T> bool Stack<T>::push(const T& item)
 	return true;
 }
 
-template <class T> T& Stack<T>::pop()
+template <class T> T Stack<T>::pop()
 {
 	if(stackHead_ == stackBase_.get())
 		throw std::runtime_error("Trying to pop an empty stack");
 	else
 	{
 		--numOfItems_;
-		return *--stackHead_;
+		T ret = *--stackHead_;
+
+		if(numOfItems_ <= capacity_/2)
+			resize(capacity_/2);
+		return ret;
 	}
 }
 
@@ -52,9 +56,9 @@ template <class T> bool Stack<T>::isEmpty()
 	return numOfItems_ == 0;
 }
 
-template <class T> void Stack<T>::resize()
+template <class T> void Stack<T>::resize(const int& newSize)
 {
-	capacity_ *= 2;
+	capacity_ = newSize;
 	std::unique_ptr<T> reallocationPtr = std::unique_ptr<T>(new T[capacity_]);
 	std::memcpy(reallocationPtr.get(), stackBase_.get(), numOfItems_*sizeof(T));
 	stackBase_ = std::move(reallocationPtr);
