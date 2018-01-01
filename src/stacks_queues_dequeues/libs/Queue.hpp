@@ -24,8 +24,8 @@ private:
 
 	std::shared_ptr<T> queuePointer_;
 
-	T* firstElement_;
-	T* lastElement_;
+	uint32_t firstElement_ = 0;
+	uint32_t lastElement_ = 0;
 
 	void resize(const uint32_t& newSize);
 };
