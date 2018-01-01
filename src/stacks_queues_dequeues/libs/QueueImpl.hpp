@@ -36,9 +36,16 @@ template <class T> void Queue<T>::resize(const uint32_t& newSize)
 {
 	capacity_ = newSize;
 	std::unique_ptr<T> reallocationPtr = std::unique_ptr<T>(new T[capacity_]);
-	std::memcpy(reallocationPtr.get(), queuePointer_.get()+firstElement_*sizeof(T), (lastElement_-firstElement_)*sizeof(T));
+	int counter = 0;
+	for (int i = firstElement_; i <lastElement_; ++i)
+	{
+		*(reallocationPtr.get()+counter) = *(queuePointer_.get()+i);
+		counter++;
+	}
+	// For some reason memcpy didn't work as expected
+	// std::memcpy(reallocationPtr.get(), queuePointer_.get()+firstElement_*sizeof(T), (lastElement_-firstElement_)*sizeof(T));
 	firstElement_ = 0; lastElement_ = numOfElements_;
-	queuePointer_ = std::move(reallocationPtr);	
+	queuePointer_ = std::move(reallocationPtr);
 }
 
 #endif
