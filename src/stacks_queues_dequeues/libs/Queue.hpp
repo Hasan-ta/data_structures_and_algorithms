@@ -6,14 +6,37 @@
 template <class T> class Queue{
 public:
 
+	/**
+	 * @brief      Default Constructor
+	 */
 	Queue();
 
+	/**
+	 * @brief      Insert element in Queue
+	 *
+	 * @param[in]  item  The item
+	 */
 	void enqueue(const T& item);
 
+	/**
+	 * @brief      Pull element out of Queue
+	 *
+	 * @return     A copy of the pulled element
+	 */
 	T dequeue();
 
+	/**
+	 * @brief      return number of elements in the queue
+	 *
+	 * @return     Number of elements in queue
+	 */
 	uint32_t size();
 
+	/**
+	 * @brief      Determines if empty.
+	 *
+	 * @return     True if empty, False otherwise.
+	 */
 	bool isEmpty();
 
 private:

@@ -32,6 +32,16 @@ template <class T> T Queue<T>::dequeue()
 	}
 }
 
+template <class T> uint32_t Queue<T>::size()
+{
+	return numOfElements_;
+}
+
+template <class T> bool Queue<T>::isEmpty()
+{
+	return numOfElements_ == 0;
+}
+
 template <class T> void Queue<T>::resize(const uint32_t& newSize)
 {
 	capacity_ = newSize;
