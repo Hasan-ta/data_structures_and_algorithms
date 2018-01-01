@@ -22,19 +22,21 @@ template <class T> T Queue<T>::dequeue()
 {
 	if(lastElement_ == firstElement_)
 		throw std::runtime_error("Trying to dequeue an empty queue");
-
-	T ret = *(queuePointer_.get()+firstElement_);
-	numOfElements_--; firstElement_++;
-	return ret;
+	else
+	{
+		T ret = *(queuePointer_.get()+firstElement_);
+		numOfElements_--; firstElement_++;
+		if(numOfElements_ <= capacity_/2)
+			resize(capacity_/2);
+		return ret;
+	}
 }
 
 template <class T> void Queue<T>::resize(const uint32_t& newSize)
 {
 	capacity_ = newSize;
 	std::unique_ptr<T> reallocationPtr = std::unique_ptr<T>(new T[capacity_]);
-	int counter = 0;
-
-	std::memcpy(reallocationPtr.get(), queuePointer_.get()+firstElement_*sizeof(T), (lastElement_)*sizeof(T));
+	std::memcpy(reallocationPtr.get(), queuePointer_.get()+firstElement_*sizeof(T), (lastElement_-firstElement_)*sizeof(T));
 	firstElement_ = 0; lastElement_ = numOfElements_;
 	queuePointer_ = std::move(reallocationPtr);	
 }
