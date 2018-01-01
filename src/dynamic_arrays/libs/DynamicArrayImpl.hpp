@@ -4,6 +4,7 @@
 #include <exception>
 #include <sstream>
 #include <string>
+#include <cstring>
 
 template <typename T>  DynamicArray<T>::DynamicArray()
 {
@@ -69,10 +70,7 @@ template <typename T> void DynamicArray<T>::resize()
 {
 	capacity_ *= 2;
 	std::unique_ptr<T[]> reallocationPtr(new T[capacity_]);
-	for (uint32_t i = 0; i < numOfElements_; ++i)
-	{
-		*(reallocationPtr.get()+i) = *(arrayPointer_.get()+i);
-	}
+	std::memcpy(reallocationPtr.get(), arrayPointer_.get(), numOfElements_*sizeof(T));
 	arrayPointer_ = std::move(reallocationPtr);
 }
 

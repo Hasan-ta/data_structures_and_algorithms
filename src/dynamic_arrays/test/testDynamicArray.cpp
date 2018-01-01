@@ -62,13 +62,24 @@ int main (int argc, char** argv)
 		counter++;
 	}
 
-	DynamicArray<int>::const_iterator array2ConstIt = array2.begin();
+	const DynamicArray<int> constArray2(16,0);
 
-	while(array2ConstIt != array2.end())
+	DynamicArray<int>::const_iterator array2ConstIt = constArray2.begin();
+
+	while(array2ConstIt != constArray2.end())
 	{
 		std::cout << *array2ConstIt << std::endl;
 		array2ConstIt++;
 	}
+
+	DynamicArray<int> array3;
+	array3 = array2;
+
+	printArrayInfo(array3);
+
+	DynamicArray<int> array4(DynamicArray<int>(16,3));
+
+	printArrayInfo(array4);	
 
 	return 0;
 }

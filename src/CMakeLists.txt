@@ -1,1 +1,2 @@
 add_subdirectory(dynamic_arrays)
+add_subdirectory(stacks_queues_dequeues)
