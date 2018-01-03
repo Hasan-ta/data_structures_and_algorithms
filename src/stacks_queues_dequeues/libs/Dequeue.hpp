@@ -3,7 +3,7 @@
 
 #include <memory>
 
-template <class T> Dequue{
+template <class T> class Dequeue{
 public:
 
 	Dequeue();
@@ -27,13 +27,17 @@ private:
 	uint32_t halfWayPointer_;
 
 	uint32_t frontPointer_;
-	
+
 	uint32_t rearPointer_;
 
 	uint32_t numOfElements_;
 
-	capacity_ = 2;
+	uint32_t capacity_ = 2;
+
+	void resize(const uint32_t& newSize);
 
 };
 
-#endif 
+#include "DequeueImpl.hpp"
+
+#endif

@@ -1,53 +1,57 @@
 #ifndef STACKS_QUEUES_DEQUEUES_LIBS_DEQUEUEIMPL_HPP
 #define STACKS_QUEUES_DEQUEUES_LIBS_DEQUEUEIMPL_HPP
 
-Dequeue<T>::Dequeue()
+#include <math.h>
+#include <cstring>
+
+template <class T> Dequeue<T>::Dequeue()
 {
 	dequeuePtr_ = std::shared_ptr<T>(new T[capacity_], std::default_delete<T>());
-	halfWayPointer_ = cpacity_ / 2;
+	halfWayPointer_ = capacity_ / 2;
 	frontPointer_ = rearPointer_ = halfWayPointer_;
 }
 
-void Dequeue<T>::addFront(const T& element)
+template <class T> void Dequeue<T>::addFront(const T& element)
 {
-	if(numofElements == capacity_/2);
+	if(rearPointer_ == capacity_ || frontPointer_ == 0)
 		resize(capacity_*2);
 
-	*--frontPointer_ = element;
-	numofElements++;
+	*(dequeuePtr_.get() + --frontPointer_) = element;
+	numOfElements_++;
 }
 
-void Dequeue<T>::addRear(const T& element)
+template <class T> void Dequeue<T>::addRear(const T& element)
 {
-	if(numofElements == capacity_/2);
+	if(rearPointer_ == capacity_ || frontPointer_ == 0)
 		resize(capacity_*2);
 
-	*rearPointer_++ = element;
-	numofElements++;
+	*(dequeuePtr_.get() + rearPointer_++) = element;
+	numOfElements_++;
 }
 
-T Dequeue<T>::removeFront()
+template <class T> T Dequeue<T>::removeFront()
 {
-	--numofElements;
-	return *frontPointer_++;
+	--numOfElements_;
+	return *(dequeuePtr_.get() + frontPointer_++);
 }
 
-T Dequeue<T>::removeRear()
+template <class T> T Dequeue<T>::removeRear()
 {
-	--numofElements;
-	return *rearPointer_--;
+	--numOfElements_;
+	return *(dequeuePtr_.get() + rearPointer_--);
 }
 
-void Dequeue<T>::resize(const uint32_t& newSize)
+template <class T> void Dequeue<T>::resize(const uint32_t& newSize)
 {
 	capacity_ = newSize;
 	std::unique_ptr<T> reallocationPtr = std::unique_ptr<T>(new T[capacity_]);
 	uint32_t tempHalfWayPointer = capacity_/2;
-	uint32_t startCopyLocation = tempHalfWayPointer - frontPointer_*sizeof(T);
+	uint32_t startCopyLocation = (tempHalfWayPointer - numOfElements_/2)*sizeof(T);
 	uint32_t copySize = (rearPointer_- frontPointer_)*sizeof(T);
 	std::memcpy(reallocationPtr.get()+startCopyLocation, dequeuePtr_.get()+frontPointer_*sizeof(T), copySize);
+	frontPointer_ = tempHalfWayPointer - numOfElements_/2;
+	rearPointer_ = frontPointer_+copySize;
 	dequeuePtr_ = std::move(reallocationPtr);
 }
-
 
 #endif
