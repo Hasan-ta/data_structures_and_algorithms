@@ -42,7 +42,8 @@ bool balanceCheck(std::string testString)
 			}
 		}
 	}
-
+	if(!pStack.isEmpty())
+		balanced = false;
 	return balanced;
 }
 
@@ -59,6 +60,29 @@ int main (int argc, char** argv)
 
 	std::string testString2("[](){([[[]]])}");
 
+	balanced = balanceCheck(testString2);
+	if(balanced)
+		std::cout << "String: \"" << testString2 << "\" is Balanced" << std::endl;
+	else
+		std::cout << "String: \"" << testString2 << "\" is Unbalanced" << std::endl;
+
+
+	testString2 = "[](){([[[]]])}(";
+	balanced = balanceCheck(testString2);
+	if(balanced)
+		std::cout << "String: \"" << testString2 << "\" is Balanced" << std::endl;
+	else
+		std::cout << "String: \"" << testString2 << "\" is Unbalanced" << std::endl;
+
+	testString2 = "[{{{(())}}}]((()))";
+	balanced = balanceCheck(testString2);
+	if(balanced)
+		std::cout << "String: \"" << testString2 << "\" is Balanced" << std::endl;
+	else
+		std::cout << "String: \"" << testString2 << "\" is Unbalanced" << std::endl;
+
+	
+	testString2 = "[[[]])]";
 	balanced = balanceCheck(testString2);
 	if(balanced)
 		std::cout << "String: \"" << testString2 << "\" is Balanced" << std::endl;
