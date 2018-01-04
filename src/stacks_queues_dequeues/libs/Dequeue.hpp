@@ -12,6 +12,13 @@ public:
 	Dequeue();
 
 	/**
+	 * @brief      Constructor 
+	 *
+	 * @param[in]  optimizeMemory  decide whether to optimize memory usage when dequeue is half empty
+	 */
+	Dequeue(const bool& optimizeMemory);
+
+	/**
 	 * @brief      Add element at the front end of queue
 	 *
 	 * @param[in]  element  The element
@@ -66,6 +73,8 @@ private:
 	uint32_t numOfElements_;
 
 	uint32_t capacity_ = 2;
+
+	bool optimizeMemory_ = false;
 
 	void resize(const uint32_t& newSize);
 

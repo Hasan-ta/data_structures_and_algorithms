@@ -11,6 +11,8 @@ template <class T> Dequeue<T>::Dequeue()
 	frontPointer_ = rearPointer_ = halfWayPointer_;
 }
 
+template <class T> Dequeue<T>::Dequeue(const bool& optimizeMemory) : optimizeMemory_(optimizeMemory){}
+
 template <class T> void Dequeue<T>::addFront(const T& element)
 {
 	if(rearPointer_ == capacity_ || frontPointer_ == 0)
@@ -32,13 +34,19 @@ template <class T> void Dequeue<T>::addRear(const T& element)
 template <class T> T Dequeue<T>::removeFront()
 {
 	--numOfElements_;
-	return *(dequeuePtr_.get() + frontPointer_++);
+	T ret = *(dequeuePtr_.get() + frontPointer_++); 
+	if(numOfElements_ <= capacity_/2 && optimizeMemory_)
+		resize(capacity_/2);
+	return ret;
 }
 
 template <class T> T Dequeue<T>::removeRear()
 {
 	--numOfElements_;
-	return *(dequeuePtr_.get() + --rearPointer_);
+	T ret = *(dequeuePtr_.get() + --rearPointer_);
+	if(numOfElements_ <= capacity_/2 && optimizeMemory_)
+		resize(capacity_/2);
+	return ret;
 }
 
 template <class T> uint32_t Dequeue<T>::size()
@@ -58,7 +66,8 @@ template <class T> void Dequeue<T>::resize(const uint32_t& newSize)
 	uint32_t tempHalfWayPointer = capacity_/2;
 	// uint32_t startCopyLocation = (tempHalfWayPointer - numOfElements_/2)*sizeof(T);
 	uint32_t startCopyLocation = (tempHalfWayPointer - numOfElements_/2);
-	uint32_t copySize = (rearPointer_- frontPointer_)*sizeof(T);
+	// uint32_t copySize = (rearPointer_- frontPointer_)*sizeof(T);
+	uint32_t copySize = (rearPointer_- frontPointer_);
 	// std::memcpy(reallocationPtr.get()+startCopyLocation, dequeuePtr_.get()+frontPointer_*sizeof(T), copySize);
 	int counter = startCopyLocation;
 	for(int i = frontPointer_; i < rearPointer_; ++i)
@@ -67,7 +76,7 @@ template <class T> void Dequeue<T>::resize(const uint32_t& newSize)
 		counter++;
 	}
 	frontPointer_ = tempHalfWayPointer - numOfElements_/2;
-	rearPointer_ = frontPointer_+copySize/sizeof(T);
+	rearPointer_ = frontPointer_+copySize;
 	dequeuePtr_ = std::move(reallocationPtr);
 }
 
