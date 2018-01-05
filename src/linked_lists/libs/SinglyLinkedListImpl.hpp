@@ -7,18 +7,12 @@
 template <class T> SinglyLinkedList<T>::Node::Node(const T& element, Node* nextPointer)
 {
 	element_ = element;
-	nextPointer_ = std::unique_ptr<Node>(nextPointer);
-}
-
-template <class T> SinglyLinkedList<T>::Node::Node(const T& element, std::unique_ptr<Node> nextPointer)
-{
-	element_ = element;
 	nextPointer_ = nextPointer;
 }
 
 template <class T> SinglyLinkedList<T>::SinglyLinkedList()
 {
-	head_ = std::shared_ptr<Node>(new SinglyLinkedList<T>::Node());
+	head_ = new Node();
 	tail_ = nullptr;
 }
 
@@ -28,43 +22,35 @@ template <class T> void SinglyLinkedList<T>::append(const T& value)
 	{
 		head_->element_ = value;
 		head_->nextPointer_ = nullptr;
-		tail_ = std::unique_ptr<Node>(head_.get());
+		tail_ = head_;
 	}
 	else
 	{
-		std::unique_ptr<Node> newNode(new Node(value, nullptr));
-		tail_ = std::move(newNode);
+		Node* newNode = new Node(value, nullptr);
+		tail_->nextPointer_ = newNode;
+		tail_ = newNode;
+		
 	}
 	numOfElements_++;
-}
-
-template <class T> bool SinglyLinkedList<T>::isEmpty()
-{
-	return numOfElements_ == 0;
 }
 
 template <class T> T SinglyLinkedList<T>::pop()
 {
 	T ret = tail_->element_;
-	tail_->nextPointer_ = nullptr;
-	if(numOfElements_ == 2)
-		tail_ = head_->nextPointer_;
-	else if (numOfElements_ == 1)
+	delete tail_;
+	if(numOfElements_ == 1)
 		tail_ = head_;
 	else if (numOfElements_ == 0)
 		throw std::runtime_error("Trying to pop an empty list");
 	else
-	{	
-		Node temp = traverseList(numOfElements_-3);
-		tail_ = temp.nextPointer_;
-	}
+		tail_ = traverseList(numOfElements_-2);
 	numOfElements_--;
 	return ret;
 }
 
-template <class T> typename SinglyLinkedList<T>::Node SinglyLinkedList<T>::traverseList(const uint32_t& index)
+template <class T> typename SinglyLinkedList<T>::Node* SinglyLinkedList<T>::traverseList(const uint32_t& index)
 {
-	std::shared_ptr<Node> it = head_;
+	Node* it = head_;
 	int i = 0;
 	while(i != index)
 	{
@@ -72,18 +58,46 @@ template <class T> typename SinglyLinkedList<T>::Node SinglyLinkedList<T>::trave
 		i++;
 	}
 
-	return *it;
+	return it;
 }
 
-template <class T> T SinglyLinkedList<T>::operator[](const uint32_t& index)
+template <class T> T& SinglyLinkedList<T>::operator[](const uint32_t& index)
 {
-	Node temp = traverseList(index);
+	Node* temp = traverseList(index);
 	return temp->element_;
+}
+
+template <class T> void SinglyLinkedList<T>::remove(const uint32_t& index)
+{
+	Node* temp = traverseList(index-1);
+	Node* toDelete = temp->nextPointer_;
+	temp->nextPointer_ = toDelete->nextPointer_;
+	numOfElements_--;
+	delete toDelete;
+}
+
+template <class T> void SinglyLinkedList<T>::insert(const uint32_t& index, const T& value)
+{
+	Node* prevNode = traverseList(index-1);
+	Node* nextNode = prevNode->nextPointer_;
+	Node* newNode = new Node(value, nextNode);
+	prevNode->nextPointer_ = newNode;
+	numOfElements_++;
+}
+
+template <class T> uint32_t SinglyLinkedList<T>::size()
+{
+	return numOfElements_;
+}
+
+template <class T> bool SinglyLinkedList<T>::isEmpty()
+{
+	return numOfElements_ == 0;
 }
 
 template <class T> void SinglyLinkedList<T>::print()
 {
-	std::unique_ptr<Node> it = head_.get();
+	Node* it = head_;
 	while(it != tail_)
 	{
 		std::cout << it->element_ << std::endl;
