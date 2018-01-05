@@ -7,9 +7,11 @@ template <class T> class SinglyLinkedList{
 private:
 	class Node{
 	public:
-		// Node(const T& element, T* nextPointer);
 
-		// Node(const T& element, std::shared_ptr<Node> nextPointer);
+		Node(){}
+		Node(const T& element, Node* nextPointer);
+
+		Node(const T& element, std::unique_ptr<Node> nextPointer);
 
 		// void setNextPointer(T* nextNode);
 
@@ -17,7 +19,7 @@ private:
 
 	// TODO Change to private
 	public:
-		std::shared_ptr<Node> nextPointer_ = nullptr;
+		std::unique_ptr<Node> nextPointer_ = nullptr;
 		T element_;
 	};
 
@@ -40,10 +42,11 @@ private:
 
 	std::shared_ptr<Node> head_;
 
-	std::shared_ptr<Node> tail_;
+	std::unique_ptr<Node> tail_;
 
 	uint32_t numOfElements_ = 0;
-	
+
+	Node traverseList(const uint32_t& index);	
 };
 
 #include "SinglyLinkedListImpl.hpp"
