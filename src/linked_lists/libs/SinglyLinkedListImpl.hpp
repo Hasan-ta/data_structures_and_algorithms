@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <exception>
+#include <sstream>
+#include <string>
 
 template <class T> SinglyLinkedList<T>::Node::Node(const T& element, Node* nextPointer)
 {
@@ -29,7 +31,23 @@ template <class T> void SinglyLinkedList<T>::append(const T& value)
 		Node* newNode = new Node(value, nullptr);
 		tail_->nextPointer_ = newNode;
 		tail_ = newNode;
-		
+	}
+	numOfElements_++;
+}
+
+template <class T> void SinglyLinkedList<T>::push(const T& value)
+{
+	if(isEmpty())
+	{
+		head_->element_ = value;
+		head_->nextPointer_ = nullptr;
+		tail_ = head_;
+	}
+	else
+	{
+		Node* newNode = new Node(value, nullptr);
+		newNode->nextPointer_ = head_;
+		head_ = newNode;
 	}
 	numOfElements_++;
 }
@@ -78,11 +96,24 @@ template <class T> void SinglyLinkedList<T>::remove(const uint32_t& index)
 
 template <class T> void SinglyLinkedList<T>::insert(const uint32_t& index, const T& value)
 {
-	Node* prevNode = traverseList(index-1);
-	Node* nextNode = prevNode->nextPointer_;
-	Node* newNode = new Node(value, nextNode);
-	prevNode->nextPointer_ = newNode;
-	numOfElements_++;
+	if(index == numOfElements_)
+		append(value);
+	else if (index == 0)
+		push(value);
+	else if (index > numOfElements_)
+	{
+		std::stringstream ss;
+		ss << "[Singly Linked List]: Out of range insertion. List size: " << numOfElements_ << std::endl;
+		throw (ss.str());
+	}
+	else
+	{
+		Node* prevNode = traverseList(index-1);
+		Node* nextNode = prevNode->nextPointer_;
+		Node* newNode = new Node(value, nextNode);
+		prevNode->nextPointer_ = newNode;
+		numOfElements_++;
+	}
 }
 
 template <class T> uint32_t SinglyLinkedList<T>::size()
@@ -104,6 +135,7 @@ template <class T> void SinglyLinkedList<T>::print()
 		it = it->nextPointer_;
 	}
 	std::cout << it->element_ << std::endl;
+	std::cout << "*************************************" << std::endl;
 }
 
 #endif
