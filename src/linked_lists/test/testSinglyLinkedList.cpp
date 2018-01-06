@@ -22,6 +22,10 @@ int main(int argc, char** argv)
 	std::cout << "inserting at tail" << std::endl;
 	list1.print();
 
+	list1.reverse();
+	std::cout << "reverse" << std::endl;
+	list1.print();
+
 	// int sss = list1.size();
 	// for (int i = 0; i < sss; ++i)
 	// {

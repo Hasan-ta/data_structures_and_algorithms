@@ -1,3 +1,6 @@
+include_directories(stacks_queues_dequeues/libs)
+include_directories(linked_lists/libs)
+include_directories(dynamic_arrays/libs)
 add_subdirectory(dynamic_arrays)
 add_subdirectory(stacks_queues_dequeues)
 add_subdirectory(linked_lists)

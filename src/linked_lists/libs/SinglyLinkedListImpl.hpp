@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <string>
+#include "Stack.hpp"
 
 template <class T> SinglyLinkedList<T>::Node::Node(const T& element, Node* nextPointer)
 {
@@ -148,6 +149,51 @@ template <class T> void SinglyLinkedList<T>::print()
 	}
 	std::cout << it->element_ << std::endl;
 	std::cout << "*************************************" << std::endl;
+}
+
+template <class T> void SinglyLinkedList<T>::reverse()
+{
+	// Fill the stack
+	// Stack<Node*> nodePointers;
+
+	// Node* it = head_;
+
+	// while(it != tail_)
+	// {
+	// 	nodePointers.push(it);
+	// 	it = it->nextPointer_;
+	// }
+
+	// // Reverse order
+	// Node* newHead = it;
+	// Node* it_1;
+	// while(it_1 != head_)
+	// {
+	// 	it_1 = nodePointers.pop();
+	// 	it->nextPointer_ = it_1;
+	// 	it = it_1;
+	// }
+	// it_1->nextPointer_ = nullptr;
+	// tail_ = it_1;
+	// head_ = newHead;
+	// 
+	
+	Node* it = head_;
+	Node* it_1 = it->nextPointer_;
+	Node* it_2 = it_1->nextPointer_;
+
+	Node* newTail = it;
+	while(it_2 != tail_)
+	{
+		it_1->nextPointer_ = it;
+		it = it_1;
+		it_1 = it_2;
+		it_2 = it_1->nextPointer_;
+	}
+	it_2->nextPointer_ = it_1;
+	it_1->nextPointer_ = it;
+	tail_ = newTail;
+	head_ = it_2;
 }
 
 #endif

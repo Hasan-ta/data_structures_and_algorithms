@@ -99,6 +99,8 @@ public:
 
 	void print();
 
+	void reverse();
+
 private:
 
 	Node* head_;
