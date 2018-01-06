@@ -22,13 +22,13 @@ int main(int argc, char** argv)
 	std::cout << "inserting at tail" << std::endl;
 	list1.print();
 
-	int sss = list1.size();
-	for (int i = 0; i < sss; ++i)
-	{
-		int a = list1.pop();
-		std::cout << "pop: " << a << std::endl;
-		list1.print();
- 	}
+	// int sss = list1.size();
+	// for (int i = 0; i < sss; ++i)
+	// {
+	// 	int a = list1.pop();
+	// 	std::cout << "pop: " << a << std::endl;
+	// 	list1.print();
+ // 	}
 
  	return 0;
 }

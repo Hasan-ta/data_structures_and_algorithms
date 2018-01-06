@@ -1,8 +1,8 @@
-#ifndef LINKED_LISTS_LIBS_SINGLYLINKEDLISTImpl_HPP
-#define LINKED_LISTS_LIBS_SINGLYLINKEDLISTImpl_HPP
+#ifndef LINKED_LISTS_LIBS_SINGLYLINKEDLISTIMPL_HPP
+#define LINKED_LISTS_LIBS_SINGLYLINKEDLISTIMPL_HPP
 
 #include <iostream>
-#include <exception>
+#include <stdexcept>
 #include <sstream>
 #include <string>
 
@@ -16,6 +16,18 @@ template <class T> SinglyLinkedList<T>::SinglyLinkedList()
 {
 	head_ = new Node();
 	tail_ = nullptr;
+}
+
+template <class T> SinglyLinkedList<T>::~SinglyLinkedList()
+{
+	Node* it = head_;
+	while(it != tail_)
+	{
+		Node* nextNode = it->nextPointer_;
+		delete it;
+		it = nextNode;
+	}
+	delete tail_;
 }
 
 template <class T> void SinglyLinkedList<T>::append(const T& value)
@@ -104,7 +116,7 @@ template <class T> void SinglyLinkedList<T>::insert(const uint32_t& index, const
 	{
 		std::stringstream ss;
 		ss << "[Singly Linked List]: Out of range insertion. List size: " << numOfElements_ << std::endl;
-		throw (ss.str());
+		throw std::runtime_error(ss.str());
 	}
 	else
 	{

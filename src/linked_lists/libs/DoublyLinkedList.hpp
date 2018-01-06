@@ -1,42 +1,31 @@
-#ifndef LINKED_LISTS_LIBS_SINGLYLINKEDLIST_HPP
-#define LINKED_LISTS_LIBS_SINGLYLINKEDLIST_HPP
+#ifndef LINKED_LISTS_LIBS_DOUBLYLINKEDLIST_HPP
+#define LINKED_LISTS_LIBS_DOUBLYLINKEDLIST_HPP
 
-#include <cstdint>
+#include <stdint.h>
+template <class T> class DoublyLinkedList{
 
-template <class T> class SinglyLinkedList{
-private:
-
+public:
 	class Node{
 	public:
 
-		/**
-		 * @brief      Default Constructor
-		 */
-		Node(){}
+		Node(){};
 
-		/**
-		 * @brief      Constructs a node with element as a value and nextPointer as the next node pointer
-		 *
-		 * @param[in]  element      The element
-		 * @param      nextPointer  The next pointer
-		 */
-		Node(const T& element, Node* nextPointer);
+		Node(const T& value, Node* prev, Node* next);
 
-		Node* nextPointer_ = nullptr;
 		T element_;
+		Node* prev_ = nullptr;
+		Node* next_ = nullptr;
 	};
-
-public:
 
 	/**
 	 * @brief      Default Constructor
 	 */
-	SinglyLinkedList();
+	DoublyLinkedList();
 
 	/**
 	 * @brief      Destroys the object.
 	 */
-	virtual ~SinglyLinkedList();
+	virtual ~DoublyLinkedList();
 
 	/**
 	 * @brief      Appends nodes to the end of the list
@@ -57,7 +46,7 @@ public:
 	 *
 	 * @return     return a copy of the element in the last node
 	 */
-	T pop();
+	// T pop();
 
 	/**
 	 * @brief      Access node at index
@@ -66,14 +55,14 @@ public:
 	 *
 	 * @return     Reference to the node at index
 	 */
-	T& operator[](const uint32_t& index);
+	// T& operator[](const uint32_t& index);
 
 	/**
 	 * @brief      Remove node located at index
 	 *
 	 * @param[in]  index  The index
 	 */
-	void remove(const uint32_t& index);
+	// void remove(const uint32_t& index);
 
 	/**
 	 * @brief      Insert node at index
@@ -81,14 +70,14 @@ public:
 	 * @param[in]  index  The index
 	 * @param[in]  value  The value
 	 */
-	void insert(const uint32_t& index, const T& value);
+	// void insert(const uint32_t& index, const T& value);
 
 	/**
 	 * @brief      Return the number of nodes in the list
 	 *
 	 * @return     number of nodes
 	 */
-	uint32_t size();
+	// uint32_t size();
 
 	/**
 	 * @brief      Determines if empty.
@@ -107,9 +96,10 @@ private:
 
 	uint32_t numOfElements_ = 0;
 
-	Node* traverseList(const uint32_t& index);	
+	Node* traverseList(const uint32_t& index);
+
 };
 
-#include "SinglyLinkedListImpl.hpp"
+#include "DoublyLinkedListImpl.hpp"
 
 #endif
