@@ -56,74 +56,109 @@ template <class T> void DoublyLinkedList<T>::push(const T& value)
 	numOfElements_++;
 }
 
-// template <class T> T DoublyLinkedList<T>::pop()
-// {
-// 	T ret = tail_->element_;
-// 	delete tail_;
-// 	if(numOfElements_ == 1)
-// 		tail_ = head_;
-// 	else if (numOfElements_ == 0)
-// 		throw std::runtime_error("Trying to pop an empty list");
-// 	else
-// 		tail_ = traverseList(numOfElements_-2);
-// 	numOfElements_--;
-// 	return ret;
-// }
+template <class T> T DoublyLinkedList<T>::pop()
+{
+	if (isEmpty())
+		throw std::runtime_error("[DoublyLinkedList]: Trying to pop an empty list");
+	else
+	{
+		Node* nodeToDelete = tail_->prev_;
+		T ret = nodeToDelete->element_;
+		tail_->prev_ = nodeToDelete->prev_;
+		nodeToDelete->prev_->next_ = tail_;
+		delete nodeToDelete;
+		numOfElements_--;
+		return ret;
+	}
+}
 
-// template <class T> typename DoublyLinkedList<T>::Node* DoublyLinkedList<T>::traverseList(const uint32_t& index)
-// {
-// 	Node* it = head_;
-// 	int i = 0;
-// 	while(i != index)
-// 	{
-// 		it = it->nextPointer_;
-// 		i++;
-// 	}
+template <class T> typename DoublyLinkedList<T>::Node* DoublyLinkedList<T>::traverseList(const uint32_t& index)
+{
+	Node* it;
+	bool incremental;
+	int i;
+	if(index < numOfElements_/2){it = head_->next_; incremental = true; i = 0;}
+	else { it = tail_->prev_; incremental = false; i = numOfElements_-1;}
 
-// 	return it;
-// }
+	while(i != index)
+	{
+		if(incremental)
+		{
+			it = it->next_;
+			i++;
+		}
+		else
+		{
+			it = it->prev_;
+			i--;
+		}
+	}
 
-// template <class T> T& DoublyLinkedList<T>::operator[](const uint32_t& index)
-// {
-// 	Node* temp = traverseList(index);
-// 	return temp->element_;
-// }
+	return it;
+}
 
-// template <class T> void DoublyLinkedList<T>::remove(const uint32_t& index)
-// {
-// 	Node* temp = traverseList(index-1);
-// 	Node* toDelete = temp->nextPointer_;
-// 	temp->nextPointer_ = toDelete->nextPointer_;
-// 	numOfElements_--;
-// 	delete toDelete;
-// }
+template <class T> T& DoublyLinkedList<T>::operator[](const uint32_t& index)
+{
+	if(index >= numOfElements_)
+	{
+		std::stringstream ss;
+		ss << "[DoublyLinkedList]: Trying to access out of range element. List size: " << numOfElements_ << std::endl;
+		throw std::runtime_error(ss.str());
+	}
+	else
+	{
+		Node* temp = traverseList(index);
+		return temp->element_;
+	}
+}
 
-// template <class T> void DoublyLinkedList<T>::insert(const uint32_t& index, const T& value)
-// {
-// 	if(index == numOfElements_)
-// 		append(value);
-// 	else if (index == 0)
-// 		push(value);
-// 	else if (index > numOfElements_)
-// 	{
-// 		std::stringstream ss;
-// 		ss << "[Doubly Linked List]: Out of range insertion. List size: " << numOfElements_ << std::endl;
-// 		throw (ss.str());
-// 	}
-// 	else
-// 	{
-// 		Node* prevNode = traverseList(index-1);
-// 		Node* nextNode = prevNode->nextPointer_;
-// 		Node* newNode = new Node(value, nextNode);
-// 		prevNode->nextPointer_ = newNode;
-// 		numOfElements_++;
-// 	}
-// }
+template <class T> void DoublyLinkedList<T>::remove(const uint32_t& index)
+{
+	if(index >= numOfElements_)
+	{
+		std::stringstream ss;
+		ss << "[DoublyLinkedList]: Trying to remove out of range element. List size: " << numOfElements_ << std::endl;
+		throw std::runtime_error(ss.str());
+	}
+	else
+	{
+		Node* toDelete = traverseList(index);
+		Node* prevNode = toDelete->prev_;
+		Node* nextNode = toDelete->next_;
+		prevNode->next_ = nextNode;
+		nextNode->prev_ = prevNode;
+		numOfElements_--;
+		delete toDelete;
+	}
+}
 
-// template <class T> uint32_t DoublyLinkedList<T>::size()
-// {
-// 	return numOfElements_;
-// }
+template <class T> void DoublyLinkedList<T>::insert(const uint32_t& index, const T& value)
+{
+	if(index == numOfElements_)
+		append(value);
+	else if (index == 0)
+		push(value);
+	else if (index > numOfElements_)
+	{
+		std::stringstream ss;
+		ss << "[Doubly Linked List]: Out of range insertion. List size: " << numOfElements_ << std::endl;
+		throw (ss.str());
+	}
+	else
+	{
+		Node* prevNode = traverseList(index-1);
+		Node* nextNode = prevNode->next_;
+		Node* newNode = new Node(value, prevNode, nextNode);
+		prevNode->next_ = newNode;
+		nextNode->prev_ = newNode;
+		numOfElements_++;
+	}
+}
+
+template <class T> uint32_t DoublyLinkedList<T>::size()
+{
+	return numOfElements_;
+}
 
 template <class T> bool DoublyLinkedList<T>::isEmpty()
 {
