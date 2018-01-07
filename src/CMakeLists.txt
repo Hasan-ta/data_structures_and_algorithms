@@ -1,6 +1,8 @@
 include_directories(stacks_queues_dequeues/libs)
 include_directories(linked_lists/libs)
 include_directories(dynamic_arrays/libs)
+include_directories(recursion/libs)
 add_subdirectory(dynamic_arrays)
 add_subdirectory(stacks_queues_dequeues)
 add_subdirectory(linked_lists)
+add_subdirectory(recursion)
