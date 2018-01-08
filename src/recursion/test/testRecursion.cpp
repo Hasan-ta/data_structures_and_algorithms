@@ -1,5 +1,6 @@
 #include "recursion_problems.h"
 #include <iostream>
+#include <time.h>
 
 int main(int argc, char** argv)
 {
@@ -16,4 +17,43 @@ int main(int argc, char** argv)
 	std::cout << "digitsSum(123456789) = " << digitsSum(123456789) << std::endl;
 
 	std::cout << "123456789 reverse: " << reversePhrase(std::string("123456789")) << std::endl;
+
+	std::vector<std::string> perms = permute(std::string("abc"));
+	std::vector<std::string>::const_iterator it = perms.begin();
+	std::cout << "\n\"abc\" Permutations:  [";
+	while(it != perms.end())
+	{
+		std::cout << *it++ << ", ";
+	}
+	std::cout << "\b\b \b].\n";
+
+	perms = permute(std::string("1234"));
+	it = perms.begin();
+	std::cout << "\n\"1234\" Permutations:  [";
+	while(it != perms.end())
+	{
+		std::cout << *it++ << ", ";
+	}
+	std::cout << "\b\b \b].\n";
+
+	clock_t t = clock();
+	std::cout << "fib(20) Recursively: " << fib_rec(20) << std::endl;
+	t = clock() - t;
+	std::cout << "Time Spent (Recursively): " << (float) t << std::endl;
+	Memoization<int,int> mem(fib_rec);
+	t = clock();
+	std::cout << "fib(20) Memoization: " << mem(20) << std::endl;
+	t = clock() - t;
+	std::cout << "Time Spent (Memoization first iteration): " << (float) t << std::endl;
+	t = clock();
+	std::cout << "fib(20) Memoization: " << mem(20) << std::endl;
+	t = clock() - t;
+	std::cout << "Time Spent (Memoization second iteration): " << (float) t << std::endl;
+		t = clock();
+	std::cout << "fib(10) Memoization: " << mem(10) << std::endl;
+	t = clock() - t;
+	std::cout << "Time Spent (Memoization second iteration): " << (float) t << std::endl;
+
+
+	return 0;
 }

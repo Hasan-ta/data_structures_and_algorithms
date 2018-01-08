@@ -1,7 +1,31 @@
 #ifndef RECURSION_LIBS_RECURSION_PROBLEMS_H
 #define RECURSION_LIBS_RECURSION_PROBLEMS_H
-
+#include <vector>
+#include <unordered_map>
 #include <string>
+#include <functional>
+
+
+
+template <typename inputType, typename returnType> class Memoization{
+private:
+	std::unordered_map<inputType, returnType> dict_;
+	std::function<returnType(inputType)> call_;
+public:
+	Memoization(std::function<returnType(inputType)> call) : call_(call){}
+	returnType operator()(const inputType& n)
+	{
+		typename std::unordered_map<inputType, returnType>::const_iterator it = dict_.find(n);
+		if(it != dict_.end())
+			return it->second;
+		else
+		{
+			int newEntry = call_(n);
+			dict_.insert(std::pair<inputType, returnType>(n,newEntry));
+			return newEntry;
+		}
+	}
+};
 
 /**
  * @brief      { function_description }
@@ -22,5 +46,10 @@ int factorial(const int& number);
 int digitsSum(const int& number);
 
 std::string reversePhrase(const std::string& phrase);
+
+std::vector <std::string> permute(const std::string& phrase);
+
+int fib_rec(const int& n);
+
 
 #endif
