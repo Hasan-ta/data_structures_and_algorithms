@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	std::cout << "Time Spent (Recursively): " << (float) t << std::endl;
 	Memoization<int,int> mem(fib_rec);
 	t = clock();
-	std::cout << "fib(20) Memoization: " << mem(20) << std::endl;
+	std::cout << "fib(6) Memoization: " << mem(6) << std::endl;
 	t = clock() - t;
 	std::cout << "Time Spent (Memoization first iteration): " << (float) t << std::endl;
 	t = clock();
@@ -53,6 +53,18 @@ int main(int argc, char** argv)
 	std::cout << "fib(10) Memoization: " << mem(10) << std::endl;
 	t = clock() - t;
 	std::cout << "Time Spent (Memoization second iteration): " << (float) t << std::endl;
+
+	std::vector<int> coins; coins.push_back(1); coins.push_back(5); coins.push_back(10); coins.push_back(25);
+	t = clock();
+	std::cout << "rec_coin(63, coins): " << rec_coin(63, coins) << std::endl;
+	t = clock() -t;
+	std::cout << "Time Spent (Recursively): " << (float) t << std::endl;
+
+	DynamicCoinChange dc;
+	t = clock();
+	std::cout << "rec_coin(63, coins): " << dc(63, coins) << std::endl;
+	t = clock() -t;
+	std::cout << "Time Spent (Dynamically): " << (float) t << std::endl;
 
 
 	return 0;

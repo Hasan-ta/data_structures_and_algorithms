@@ -4,6 +4,7 @@
 #include "Stack.hpp"
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 int factorial(const int& number)
 {
@@ -95,4 +96,43 @@ int fib_rec(const int& n)
 		return n;
 	else
 		return fib_rec(n-1) + fib_rec(n-2);
+}
+
+int rec_coin(const int& target, const std::vector<int>& coins)
+{
+	// std::vector<int>::const_iterator it = std::find(coins.begin(), coins.end(), number);
+	// int total = 0;
+	// std::vector<int> diff;
+	// int i =0;
+	// while(number - coins[i] > 0)
+	// {
+	// 	diff.push_back(number - coins[i]);
+	// 	++i;
+	// }
+	// if(it != coins.end()) return 1;
+	// else if(coins.size() == 1) return number/coins[0];
+	// else if(diff[i-1] < coins[coins.size()-1])
+	// 	return total + 1 + rec_coin(number-coins[coins.size()-1], std::vector<int>(coins.begin(), coins.begin()+i-1));
+	// else if(diff[i-1] < coins[0])
+	// 	return total + rec_coin(number, std::vector<int>(coins.begin(), coins.begin()+i-1));
+	// 	
+		
+	int minimumCoins = target;
+	std::vector<int>::const_iterator it = std::find(coins.begin(), coins.end(), target);
+	if(it != coins.end())
+		return 1;
+	else
+	{
+		for (int i = 0; i < coins.size(); ++i)
+		{
+			double numOfCoins;
+			if(coins[i] <= target)
+			{
+				numOfCoins = 1 + rec_coin(target - coins[i], coins);
+				if(numOfCoins < minimumCoins)
+					minimumCoins = numOfCoins;
+			}			
+		}
+		return minimumCoins;
+	}
 }
