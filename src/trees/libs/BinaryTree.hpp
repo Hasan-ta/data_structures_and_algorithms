@@ -6,6 +6,8 @@ template <class T> class BinaryTree{
 	public:
 		BinaryTree(const T& value);
 
+		~BinaryTree();
+
 		void insertLeft(const T& vlaue);
 
 		void insertRight(const T& value);
@@ -22,6 +24,8 @@ template <class T> class BinaryTree{
 		T key_ = T();
 		BinaryTree* leftChild_ = nullptr;
 		BinaryTree* rightChild_ = nullptr;
+
+		void killTree(BinaryTree<T>* tree);
 };
 
 template <class T> void preorder(BinaryTree<T>& tree);

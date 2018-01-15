@@ -6,6 +6,17 @@ template <class T> BinaryTree<T>::BinaryTree(const T& value)
 	key_ = value;
 }
 
+template <class T> BinaryTree<T>::~BinaryTree()
+{
+	delete leftChild_;
+	delete rightChild_;
+}
+
+template <class T> void BinaryTree<T>::killTree(BinaryTree<T>* tree)
+{
+
+}
+
 template <class T> void BinaryTree<T>::insertLeft(const T& value)
 {
 	if(leftChild_ == nullptr)
