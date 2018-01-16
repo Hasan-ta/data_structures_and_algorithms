@@ -66,6 +66,13 @@ template <typename T> void DynamicArray<T>::append(const T& element)
 	++numOfElements_;
 }
 
+template <typename T> T DynamicArray<T>::pop()
+{
+	return *(arrayPointer_.get()+(numOfElements_--)-1);
+	// --numOfElements_
+	// return retValue
+}
+
 template <typename T> void DynamicArray<T>::resize()
 {
 	capacity_ *= 2;

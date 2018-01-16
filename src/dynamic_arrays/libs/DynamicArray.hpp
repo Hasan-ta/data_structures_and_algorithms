@@ -60,6 +60,13 @@ template <typename T> class DynamicArray
         virtual void append(const T& element);
 
         /**
+         * @brief      pop the last element in the array
+         *
+         * @return     copy of the last element of the array
+         */
+        virtual T pop();
+
+        /**
          * @brief      get pointer to first element
          *
          * @return     shared pointer to first element in the array

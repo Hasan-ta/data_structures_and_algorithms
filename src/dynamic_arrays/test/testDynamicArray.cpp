@@ -81,5 +81,8 @@ int main (int argc, char** argv)
 
 	printArrayInfo(array4);	
 
+	std::cout << "array4.pop(): " << array4.pop() << std::endl;
+	printArrayInfo(array4);	
+
 	return 0;
 }
