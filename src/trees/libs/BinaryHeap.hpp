@@ -15,13 +15,15 @@ public:
 
 private:
 
-	DynamicArray<T> heapList_();
+	DynamicArray<T> heapList_;
 
-	void percUp(int& i);
+	void percUp(int i);
 
-	void percDown(int& i);
+	void percDown(int i);
 
-	int minChild(const int& i);
-}
+	int minChild(const int i);
+};
+
+#include "BinaryHeapImpl.hpp"
 
 #endif 

@@ -7,17 +7,18 @@ template <class T> BinaryHeap<T>::BinaryHeap()
 template <class T> void BinaryHeap<T>::insert(const T& newItem)
 {
 	heapList_.append(newItem);
-	percUp(heapList_.size()-1);
+	int i = heapList_.size()-1;
+	percUp(i);
 }
 
-template <class T> void BinaryHeap<T>::percUp(const int& i)
+template <class T> void BinaryHeap<T>::percUp(int i)
 {
-	while((i-1)/2 > 0)
+	while((i-1)/2 >= 0 && i > 0)
 	{
 		if(heapList_[i] < heapList_[(i-1)/2])
 		{
 			T temp = heapList_[(i-1)/2];
-			heapList_[(i-1)/2] = heapList_[i]
+			heapList_[(i-1)/2] = heapList_[i];
 			heapList_[i] = temp;
 		}
 		i = (i-1)/2;
@@ -30,10 +31,10 @@ template <class T> T BinaryHeap<T>::delMin()
 	heapList_[0] = heapList_[heapList_.size()-1];
 	heapList_.pop();
 	percDown(0);
-	return retValue;	
+	return retVal;	
 }
 
-template <class T> BinaryHeap<T>::percDown(int& i)
+template <class T> void BinaryHeap<T>::percDown(int i)
 {
 	while(i*2+1 < heapList_.size())
 	{
@@ -48,7 +49,7 @@ template <class T> BinaryHeap<T>::percDown(int& i)
 	}
 }
 
-tempalte <class T> BinaryHeap<T>::minChild(const int& i)
+template <class T> int BinaryHeap<T>::minChild(const int i)
 {
 	if(i*2+2 >= heapList_.size())
 	{
