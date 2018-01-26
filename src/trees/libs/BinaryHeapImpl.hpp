@@ -4,6 +4,17 @@
 template <class T> BinaryHeap<T>::BinaryHeap()
 {}
 
+template <class T> BinaryHeap<T>::BinaryHeap(DynamicArray<T> alist)
+{
+	heapList_ = alist;
+	int i = 0;
+	while(i < heapList_.size())
+	{
+		percUp(i);
+		i++;
+	}
+}
+
 template <class T> void BinaryHeap<T>::insert(const T& newItem)
 {
 	heapList_.append(newItem);

@@ -9,6 +9,8 @@ public:
 	
 	BinaryHeap();
 
+	BinaryHeap(DynamicArray<T> alist);
+
 	void insert(const T& newItem);
 
 	T delMin();
