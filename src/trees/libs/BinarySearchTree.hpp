@@ -2,38 +2,53 @@
 #define TREES_LIBS_BINARYSEARCHTREE_HPP
 
 #include <stdint.h>
+
+
 template <class keyType, class valueType> class BinarySearchTree{
 private:
-	class Node{
-	public:
-		keyType key_;
-		valueType value_;
-		Node* rightChild_ = nullptr;
-		Node* leftChild_ = nullptr;
+	// class Node{
+	// public:
+	// 	keyType key_;
+	// 	valueType value_;
+	// 	Node* rightChild_ = nullptr;
+	// 	Node* leftChild_ = nullptr;
 
-		Node(const keyType& key, const valueType& value)
-		{
-			key_ = key;
-			value_ = value;
-		}
-	};
+	// 	Node(const keyType& key, const valueType& value)
+	// 	{
+	// 		key_ = key;
+	// 		value_ = value;
+	// 	}
+	// };
 
 public:
 	BinarySearchTree();
 
-	virtual ~BinarySearchTree(){};
+	BinarySearchTree(const keyType& key, const valueType& value);
+
+	virtual ~BinarySearchTree();
 
 	uint32_t size();
 
 	void put(const keyType& key, const valueType& value);
 
+	const BinarySearchTree* get(const keyType& keyIn);
+
+	const valueType value() const;
+	valueType value();
+
 private:
 
-	Node* root_ = nullptr;
+	keyType key_;
+	valueType value_;
+	BinarySearchTree* rightChild_ = nullptr;
+	BinarySearchTree* leftChild_ = nullptr;
+
+	// Node* root_ = nullptr;
 
 	uint32_t size_ = 0;
 
-	void put_(const keyType& key, const valueType& value, Node* begNode);
+	bool put_(const keyType& key, const valueType& value, BinarySearchTree* begNode);
+	const BinarySearchTree* get_(const keyType& keyIn, BinarySearchTree* begNode);
 };
 
 #include "BinarySearchTreeImpl.hpp"
