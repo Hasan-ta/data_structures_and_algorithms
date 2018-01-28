@@ -23,6 +23,5 @@ int main(int argc, char** argv)
 	std::cout << "bst1 size : " << bst1.size() << std::endl;
 	std::cout << "bst1 get(4) : " << bst1.get(4)->value() << std::endl;
 
-
 	return 0;
 }

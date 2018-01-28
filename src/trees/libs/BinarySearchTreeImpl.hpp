@@ -8,14 +8,12 @@ template <class keyType, class vlaueType> BinarySearchTree<keyType, vlaueType>::
 
 template <class keyType, class vlaueType> BinarySearchTree<keyType, vlaueType>::BinarySearchTree(const keyType& key, const vlaueType& value)
 {
-	key_ = key;
-	value_ = value;
+	root_ = new Node(key, value);
 }
 
 template <class keyType, class vlaueType> BinarySearchTree<keyType, vlaueType>::~BinarySearchTree()
 {
-	delete leftChild_;
-	delete rightChild_;
+	delete root_;
 }
 
 template <class keyType, class vlaueType> uint32_t BinarySearchTree<keyType, vlaueType>::size()
@@ -28,20 +26,24 @@ template <class keyType, class vlaueType> void BinarySearchTree<keyType, vlaueTy
 	// if(root_ == nullptr)
 	if(size_ == 0)
 	{
-		key_ = key; value_ = value; size_++;
+		root_ = new Node(key,value);
+		size_++;
 	}
 	else
-		if(put_(key, value, this)) {size_++;}
+		if(put_(key, value, root_)) {size_++;}
 }
 
-template <class keyType, class vlaueType> bool BinarySearchTree<keyType, vlaueType>::put_(const keyType& key, const vlaueType& value, BinarySearchTree* begNode)
+template <class keyType, class vlaueType> bool BinarySearchTree<keyType, vlaueType>::put_(const keyType& key, const vlaueType& value, Node* begNode)
 {
-	BinarySearchTree* nextNode;
+	Node* nextNode;
 	if(key < begNode->key_)
 	{
 		nextNode = begNode->leftChild_;
 		if(nextNode == nullptr)
-			begNode->leftChild_ = new BinarySearchTree(key, value);
+		{
+			begNode->leftChild_ = new Node(key, value);
+			begNode->leftChild_->parent_ = begNode;
+		}
 		else
 			return put_(key, value, begNode->leftChild_);
 	}
@@ -49,7 +51,10 @@ template <class keyType, class vlaueType> bool BinarySearchTree<keyType, vlaueTy
 	{
 		nextNode = begNode->rightChild_;
 		if(nextNode == nullptr)
-			begNode->rightChild_ = new BinarySearchTree(key, value);
+		{
+			begNode->rightChild_ = new Node(key, value);
+			begNode->rightChild_->parent_ = begNode;
+		}
 		else
 			return put_(key, value, begNode->rightChild_);
 	}
@@ -61,15 +66,15 @@ template <class keyType, class vlaueType> bool BinarySearchTree<keyType, vlaueTy
 	}
 }
 
-template <class keyType, class valueType> const BinarySearchTree<keyType, valueType>* BinarySearchTree<keyType, valueType>::get(const keyType& keyIn)
+template <class keyType, class valueType> typename BinarySearchTree<keyType,valueType>::Node* const BinarySearchTree<keyType, valueType>::get(const keyType& keyIn)
 {
-	if(key_ == keyIn)
-		return this;
+	if(root_->key_ == keyIn)
+		return root_;
 	else
-		return get_(keyIn, this);
+		return get_(keyIn, root_);
 }
 
-template <class keyType, class valueType> const BinarySearchTree<keyType, valueType>* BinarySearchTree<keyType, valueType>::get_(const keyType& keyIn, BinarySearchTree* begNode)
+template <class keyType, class valueType> typename BinarySearchTree<keyType,valueType>::Node* const BinarySearchTree<keyType, valueType>::get_(const keyType& keyIn, Node* begNode)
 {
 	if(keyIn < begNode->key_)
 	{
@@ -95,16 +100,6 @@ template <class keyType, class valueType> const BinarySearchTree<keyType, valueT
 				return get_(keyIn, begNode->rightChild_);
 		}
 	}
-}
-
-template <class keyType, class valueType> valueType BinarySearchTree<keyType, valueType>::value()
-{
-	return value_;
-}
-
-template <class keyType, class valueType> const valueType BinarySearchTree<keyType, valueType>::value() const
-{
-	return value_;
 }
 
 #endif
