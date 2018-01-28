@@ -19,11 +19,14 @@ private:
 			key_ = key;
 			value_ = value;
 		}
-
 		~Node()
 		{
 			delete rightChild_;
 			delete leftChild_;
+		}
+		void nullifyNode()
+		{
+			leftChild_ = rightChild_ = parent_ = nullptr;
 		}
 		bool isRoot()
 		{
@@ -67,6 +70,8 @@ public:
 
 	Node* const get(const keyType& keyIn);
 
+	void deleteNode(const keyType& keyIn);
+
 private:
 
 	Node* root_ = nullptr;
@@ -75,7 +80,9 @@ private:
 
 	bool put_(const keyType& key, const valueType& value, Node* begNode);
 
-	Node* const get_(const keyType& keyIn, Node* begNode);
+	Node* get_(const keyType& keyIn, Node* begNode);
+
+	void remove(Node* nodeToDelete);
 };
 
 #include "BinarySearchTreeImpl.hpp"
