@@ -29,10 +29,10 @@ int main(int argc, char** argv)
 
 	bst1.deleteNode(3);
 	std::cout << "Deleting node with key = 3" << std::endl;
-	// std::cout << "bst1 size : " << bst1.size() << std::endl;
-	// std::cout << "bst1 get(0) : " << bst1.get(0)->value() << std::endl;
-	// std::cout << "bst1 get(2) : " << bst1.get(2)->value() << std::endl;
-	// std::cout << "bst1 get(4) : " << bst1.get(4)->value() << std::endl;
+	std::cout << "bst1 size : " << bst1.size() << std::endl;
+	std::cout << "bst1 get(0) : " << bst1.get(0)->value() << std::endl;
+	std::cout << "bst1 get(2) : " << bst1.get(2)->value() << std::endl;
+	std::cout << "bst1 get(4) : " << bst1.get(4)->value() << std::endl;
 
 	return 0;
 }

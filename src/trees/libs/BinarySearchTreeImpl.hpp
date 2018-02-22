@@ -189,7 +189,36 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 			}
 		}
 	}
-	
+}
+
+template <class keyType, class valueType> typename BinarySearchTree<keyType,valueType>::Node* BinarySearchTree<keyType, valueType>::findSuccessor(Node* currentNode)
+{
+	Node* succ = nullptr;
+	if(currentNode->hasRightChild())
+	    succ = findMin(currentNode->rightChild_);
+	else
+	{
+	    if(!currentNode->isRoot())
+	    {
+	        if(currentNode->isLeftChild())
+	            succ = currentNode->parent_;
+	        else
+	        {
+	            currentNode->parent_->rightChild_ = nullptr;
+	            succ = findSuccessor(currentNode->parent_);
+	            currentNode->parent_->rightChild_ = currentNode;
+	        }
+	    }
+	}
+	return succ;
+}
+
+template <class keyType, class valueType> typename BinarySearchTree<keyType,valueType>::Node* BinarySearchTree<keyType, valueType>::findMin(Node* currentNode)
+{
+	    Node* temp = currentNode;
+        while(temp->hasLeftChild())
+            temp = temp->leftChild_;
+        return temp;
 }
 
 #endif

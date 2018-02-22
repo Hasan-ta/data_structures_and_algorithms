@@ -83,6 +83,10 @@ private:
 	Node* get_(const keyType& keyIn, Node* begNode);
 
 	void remove(Node* nodeToDelete);
+
+	Node* findSuccessor(Node* currentNode);
+
+	Node* findMin(Node* currentNode);
 };
 
 #include "BinarySearchTreeImpl.hpp"
