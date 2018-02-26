@@ -90,7 +90,7 @@ template <class keyType, class valueType> typename BinarySearchTree<keyType,valu
 				return get_(keyIn, begNode->leftChild_);
 		}
 	}
-	else
+	else if (keyIn > begNode->key_)
 	{
 		if(begNode->rightChild_ == nullptr)
 			return nullptr;
@@ -102,6 +102,8 @@ template <class keyType, class valueType> typename BinarySearchTree<keyType,valu
 				return get_(keyIn, begNode->rightChild_);
 		}
 	}
+	else
+		return begNode;
 }
 
 template <class keyType, class valueType> void BinarySearchTree<keyType, valueType>::deleteNode(const keyType& keyIn)
@@ -140,14 +142,14 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 	{
 		if(nodeToDelete->hasLeftChild())
 		{
-			if(nodeToDelete == nodeToDelete->parent_->leftChild_)
+			if(nodeToDelete->isLeftChild())
 			{
 				nodeToDelete->parent_->leftChild_ = nodeToDelete->leftChild_;
 				nodeToDelete->leftChild_->parent_ = nodeToDelete->parent_;
 				nodeToDelete->nullifyNode();
 				delete nodeToDelete;
 			}
-			else if(nodeToDelete == nodeToDelete->parent_->rightChild_)
+			else if(nodeToDelete->isRightChild())
 			{
 				nodeToDelete->parent_->rightChild_ = nodeToDelete->leftChild_;
 				nodeToDelete->leftChild_->parent_ = nodeToDelete->parent_;
@@ -156,23 +158,27 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 			}
 			else
 			{
-				nodeToDelete->key_ = nodeToDelete->leftChild_->key_;
-				nodeToDelete->value_ = nodeToDelete->leftChild_->value_;
-				nodeToDelete->leftChild_ = nodeToDelete->leftChild_->leftChild_;
-				nodeToDelete->rightChild_ = nodeToDelete->leftChild_->rightChild_;
-				nodeToDelete->leftChild_->parent_ = nullptr;
+				root_ = nodeToDelete->leftChild_;
+				root_->parent_ = nullptr;
+				nodeToDelete->nullifyNode();
+				delete nodeToDelete;
+				// nodeToDelete->key_ = nodeToDelete->leftChild_->key_;
+				// nodeToDelete->value_ = nodeToDelete->leftChild_->value_;
+				// nodeToDelete->leftChild_ = nodeToDelete->leftChild_->leftChild_;
+				// nodeToDelete->rightChild_ = nodeToDelete->leftChild_->rightChild_;
+				// nodeToDelete->leftChild_->parent_ = nullptr;
 			}
 		}
 		else if (nodeToDelete->hasRightChild())
 		{
-			if(nodeToDelete == nodeToDelete->parent_->leftChild_)
+			if(nodeToDelete->isLeftChild())
 			{
 				nodeToDelete->parent_->rightChild_ = nodeToDelete->rightChild_;
 				nodeToDelete->rightChild_->parent_ = nodeToDelete->parent_;
 				nodeToDelete->nullifyNode();
 				delete nodeToDelete;
 			}
-			else if(nodeToDelete == nodeToDelete->parent_->rightChild_)
+			else if(nodeToDelete->isRightChild())
 			{
 				nodeToDelete->parent_->rightChild_ = nodeToDelete->rightChild_;
 				nodeToDelete->rightChild_->parent_ = nodeToDelete->parent_;
@@ -181,11 +187,15 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 			}
 			else
 			{
-				nodeToDelete->key_ = nodeToDelete->rightChild_->key_;
-				nodeToDelete->value_ = nodeToDelete->rightChild_->value_;
-				nodeToDelete->leftChild_ = nodeToDelete->rightChild_->leftChild_;
-				nodeToDelete->rightChild_ = nodeToDelete->rightChild_->rightChild_;
-				nodeToDelete->rightChild_->parent_ = nullptr;
+				root_ = nodeToDelete->rightChild_;
+				root_->parent_ = nullptr;
+				nodeToDelete->nullifyNode();
+				delete nodeToDelete;
+				// nodeToDelete->key_ = nodeToDelete->rightChild_->key_;
+				// nodeToDelete->value_ = nodeToDelete->rightChild_->value_;
+				// nodeToDelete->leftChild_ = nodeToDelete->rightChild_->leftChild_;
+				// nodeToDelete->rightChild_ = nodeToDelete->rightChild_->rightChild_;
+				// nodeToDelete->rightChild_->parent_ = nullptr;
 			}
 		}
 	}

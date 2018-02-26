@@ -52,6 +52,24 @@ private:
 			rightChild_ != nullptr ? ret = true : ret = false;
 			return ret;
 		}
+		bool isLeftChild()
+		{
+			if(parent_ == nullptr)
+				return false;
+			else if (parent_->leftChild_ == this)
+				return true;
+			else
+				return false;
+		}
+		bool isRightChild()
+		{
+			if(parent_ == nullptr)
+				return false;
+			else if (parent_->rightChild_ == this)
+				return true;
+			else
+				return false;
+		}
 		const valueType value() const {return value_;}
 		valueType value() {return value_;}
 	};

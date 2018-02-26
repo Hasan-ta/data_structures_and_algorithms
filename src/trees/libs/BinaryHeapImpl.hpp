@@ -24,7 +24,8 @@ template <class T> void BinaryHeap<T>::insert(const T& newItem)
 
 template <class T> void BinaryHeap<T>::percUp(int i)
 {
-	while((i-1)/2 >= 0 && i > 0)
+	// we need i > 0 because (0-1)/2 = 0 will cause an infinite loop
+	while(i > 0 && (i-1)/2 >= 0)
 	{
 		if(heapList_[i] < heapList_[(i-1)/2])
 		{
@@ -49,7 +50,7 @@ template <class T> void BinaryHeap<T>::percDown(int i)
 {
 	while(i*2+1 < heapList_.size())
 	{
-		T mc = minChild(i);
+		int mc = minChild(i);
 		if(heapList_[i] > heapList_[mc])
 		{
 			T temp1 = heapList_[mc];
