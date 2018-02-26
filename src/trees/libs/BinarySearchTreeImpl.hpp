@@ -136,7 +136,12 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 	}
 	else if(nodeToDelete->hasLeftChild() && nodeToDelete->hasRightChild())
 	{
-		;
+		Node* succ = findSuccessor(nodeToDelete);
+		spliceOut(succ);
+		nodeToDelete->key_ = succ->key_;
+		nodeToDelete->value_ = succ->value_;
+		nodeToDelete->nullifyNode();
+		delete nodeToDelete;
 	}
 	else
 	{
@@ -206,29 +211,68 @@ template <class keyType, class valueType> typename BinarySearchTree<keyType,valu
 	Node* succ = nullptr;
 	if(currentNode->hasRightChild())
 	    succ = findMin(currentNode->rightChild_);
-	else
-	{
-	    if(!currentNode->isRoot())
-	    {
-	        if(currentNode->isLeftChild())
-	            succ = currentNode->parent_;
-	        else
-	        {
-	            currentNode->parent_->rightChild_ = nullptr;
-	            succ = findSuccessor(currentNode->parent_);
-	            currentNode->parent_->rightChild_ = currentNode;
-	        }
-	    }
-	}
+	// else
+	// {
+	//     if(!currentNode->isRoot())
+	//     {
+	//         if(currentNode->isLeftChild())
+	//             succ = currentNode->parent_;
+	//         else
+	//         {
+	//             currentNode->parent_->rightChild_ = nullptr;
+	//             succ = findSuccessor(currentNode->parent_);
+	//             currentNode->parent_->rightChild_ = currentNode;
+	//         }
+	//     }
+	// }
 	return succ;
 }
 
 template <class keyType, class valueType> typename BinarySearchTree<keyType,valueType>::Node* BinarySearchTree<keyType, valueType>::findMin(Node* currentNode)
 {
-	    Node* temp = currentNode;
-        while(temp->hasLeftChild())
-            temp = temp->leftChild_;
-        return temp;
+	Node* temp = currentNode;
+	while(temp->hasLeftChild())
+	   temp = temp->leftChild_;
+	return temp;
+}
+
+template <class keyType, class valueType> void BinarySearchTree<keyType, valueType>::spliceOut(Node* currentNode)
+{
+	if(currentNode->isLeaf())
+	{
+		if(currentNode->isLeftChild())
+			currentNode->parent_->leftChild_ = nullptr;
+		else
+			currentNode->parent_->rightChild_ = nullptr;
+	}
+
+	else if (currentNode->hasLeftChild() || currentNode->hasRightChild())
+	{
+		if(currentNode->hasLeftChild())
+		{
+			if(currentNode->isLeftChild())
+				currentNode->parent_->leftChild_ = currentNode->leftChild_;
+			else
+			{
+				currentNode->parent_->rightChild_ = currentNode->leftChild_;
+				currentNode->leftChild_->parent_ = currentNode->parent_;
+			}
+		}
+
+		else
+		{
+			if(currentNode->isLeftChild())
+				currentNode->parent_->leftChild_ = currentNode->rightChild_;
+			else
+			{
+				currentNode->parent_->rightChild_ = currentNode->rightChild_;
+				currentNode->rightChild_->parent_ = currentNode->parent_;
+			}
+		}
+	}
+
+	currentNode->nullifyNode();
+	delete currentNode;
 }
 
 #endif

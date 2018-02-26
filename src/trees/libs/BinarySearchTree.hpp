@@ -17,7 +17,7 @@ private:
 		Node(const keyType& key, const valueType& value)
 		{
 			key_ = key;
-			value_ = value;
+			value_ = valueType(value);
 		}
 		~Node()
 		{
@@ -105,6 +105,9 @@ private:
 	Node* findSuccessor(Node* currentNode);
 
 	Node* findMin(Node* currentNode);
+
+	void spliceOut(Node* currentNode);
+
 };
 
 #include "BinarySearchTreeImpl.hpp"
