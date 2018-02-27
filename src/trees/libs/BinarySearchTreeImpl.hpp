@@ -132,14 +132,22 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 			nodeToDelete->parent_->leftChild_ = nullptr;
 		else
 			nodeToDelete->parent_->rightChild_ = nullptr;
+		nodeToDelete->nullifyNode();
 		delete nodeToDelete;
 	}
 	else if(nodeToDelete->hasLeftChild() && nodeToDelete->hasRightChild())
 	{
 		Node* succ = findSuccessor(nodeToDelete);
 		spliceOut(succ);
-		nodeToDelete->key_ = succ->key_;
-		nodeToDelete->value_ = succ->value_;
+		succ->parent_ = nodeToDelete->parent_;
+		succ->leftChild_ = nodeToDelete->leftChild_;
+		succ->rightChild_ = nodeToDelete->rightChild_;
+
+		if(nodeToDelete->isLeftChild())
+			succ->parent_->leftChild_ = succ;
+		else if (nodeToDelete->isRightChild())
+			succ->parent_->rightChild_ = succ;
+
 		nodeToDelete->nullifyNode();
 		delete nodeToDelete;
 	}
@@ -253,10 +261,9 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 			if(currentNode->isLeftChild())
 				currentNode->parent_->leftChild_ = currentNode->leftChild_;
 			else
-			{
 				currentNode->parent_->rightChild_ = currentNode->leftChild_;
-				currentNode->leftChild_->parent_ = currentNode->parent_;
-			}
+			
+			currentNode->leftChild_->parent_ = currentNode->parent_;
 		}
 
 		else
@@ -264,15 +271,14 @@ template <class keyType, class valueType> void BinarySearchTree<keyType, valueTy
 			if(currentNode->isLeftChild())
 				currentNode->parent_->leftChild_ = currentNode->rightChild_;
 			else
-			{
 				currentNode->parent_->rightChild_ = currentNode->rightChild_;
-				currentNode->rightChild_->parent_ = currentNode->parent_;
-			}
+
+			currentNode->rightChild_->parent_ = currentNode->parent_;
 		}
 	}
 
-	currentNode->nullifyNode();
-	delete currentNode;
+	// currentNode->nullifyNode();
+	// delete currentNode;
 }
 
 #endif

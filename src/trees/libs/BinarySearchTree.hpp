@@ -5,7 +5,7 @@
 
 
 template <class keyType, class valueType> class BinarySearchTree{
-private:
+public:
 	class Node{
 	public:
 		keyType key_;

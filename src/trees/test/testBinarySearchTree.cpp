@@ -58,5 +58,9 @@ int main(int argc, char** argv)
 
 	bst1.deleteNode(5);
 
+	// BinarySearchTree<int, std::string>::Node node1(0,"0");
+
+	// std::cout << node1.key_ << ", " << node1.value_ << std::endl;
+
 	return 0;
 }
